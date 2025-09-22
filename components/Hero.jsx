@@ -80,6 +80,7 @@ const Hero = () => {
           </div>
         </div>
       </div>
+      {/* Smooth automatic Slider */}
       <CategoriesMarquee />
     </div>
   );
