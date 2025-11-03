@@ -2,8 +2,9 @@
 import { Search, ShoppingCart } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import { use, useState } from "react";
+import { useSelector} from "react-redux";
+
 
 const Navbar = () => {
 
@@ -11,6 +12,9 @@ const Navbar = () => {
 
     const [search, setSearch] = useState('')
     const cartCount = useSelector(state => state.cart.total)
+    const user = useSelector(state => state.auth.user);
+    const [isLoggedIn, setIsloggedIn] = useState(!!user);
+    console.log(user, isLoggedIn); 
 
     const handleSearch = (e) => {
         e.preventDefault()
@@ -46,11 +50,19 @@ const Navbar = () => {
                             Cart
                             <button className="absolute -top-1 left-3 text-[8px] text-white bg-slate-600 size-3.5 rounded-full">{cartCount}</button>
                         </Link>
-                        <Link href="/auth/login">
+                        {isLoggedIn ? 
+                        (<Link href="/profile">
+                        <button className="px-8 py-2 bg-indigo-500 hover:bg-indigo-600 transition text-white rounded-full">
+                            Profile
+                        </button>
+                        </Link>)
+                        :
+                        (<Link href="/auth/login">
                         <button className="px-8 py-2 bg-indigo-500 hover:bg-indigo-600 transition text-white rounded-full">
                             Login
                         </button>
-                        </Link>
+                        </Link>)
+                        }
 
                     </div>
 

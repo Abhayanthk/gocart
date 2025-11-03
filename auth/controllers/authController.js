@@ -1,6 +1,6 @@
 import bcypt from 'bcryptjs';
 import { PrismaClient } from '@prisma/client';
-const { generateToken } = '../utilities/generateToken';
+import { generateToken } from '../utilities/generateToken.js';
 
 const prisma = new PrismaClient();
 
@@ -14,7 +14,7 @@ export const signup = async (req ,res) =>{
             return res.status(400).json({message: 'User already exists'});
       }
       const hashedPassword = await bcypt.hash(password, 10);
-      console.log("Creating user:", {name, email, fullName, password: hashedPassword});
+      // console.log("Creating user:", {name, email, fullName, password: hashedPassword});
       const user = await prisma.account.create({
             data:{
                   username: name,
@@ -28,11 +28,13 @@ export const signup = async (req ,res) =>{
 }
 
 export const login = async (req, res) =>{
-      const {identifier, password} = req.body;
-      if(!identifier || !password){
+      const { username = "", email = "",password} = req.body;
+      // console.log("Login attempt with identifier:", identifier);
+      if(!password){
             return res.status(400).json({message: 'Please provide all required fields'});
       }
-      const user = await prisma.account.findUnique({where: {OR : [{email: identifier}, {username: identifier}]}});
+      // console.log("Logging in user with identifier:", identifier);
+      const user = await prisma.account.findFirst({where: {OR : [{email}, {username}] }});
       if(!user){
             return res.status(400).json({message: 'Invalid credentials'});
       }
