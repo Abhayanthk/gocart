@@ -11,12 +11,22 @@ datasource db {
 
 // Required for creating a User: id, name, email, image, cart (optional JSON string)
 model Account {
-  id           Int      @id @default(autoincrement())
-  username     String   @unique
-  email        String   @unique
+  id           Int            @id @default(autoincrement())
+  username     String         @unique
   fullName     String
-  passwordHash String
-  createdAt    DateTime @default(now())
+  email        String         @unique
+  password String
+  createdAt    DateTime       @default(now())
+  tokens       RefreshToken[]
+}
+
+model RefreshToken {
+  id         Int      @id @default(autoincrement())
+  tokenHash  String   @unique
+  account    Account  @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  accountId  Int
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
 }
 
 model User {

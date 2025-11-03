@@ -46,10 +46,11 @@ const Navbar = () => {
                             Cart
                             <button className="absolute -top-1 left-3 text-[8px] text-white bg-slate-600 size-3.5 rounded-full">{cartCount}</button>
                         </Link>
-
+                        <Link href="/auth/login">
                         <button className="px-8 py-2 bg-indigo-500 hover:bg-indigo-600 transition text-white rounded-full">
                             Login
                         </button>
+                        </Link>
 
                     </div>
 
