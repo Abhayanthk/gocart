@@ -1,5 +1,5 @@
 import express from 'express';
-import { signup, login, getProfile } from '../controllers/authController.js';
+import { signup, login, getProfile, logout } from '../controllers/authController.js';
 import { protect } from '../middleware/authMiddleware.js';
 const { sign } = 'jsonwebtoken';
 
@@ -13,5 +13,8 @@ router.post('/login', login);
 
 // Get user profile
 router.get('/profile', protect, getProfile);
+
+// User LogOut
+router.post('/logout', protect, logout);
 
 export default router;

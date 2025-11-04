@@ -1,8 +1,11 @@
 "use client";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {login} from "@/lib/features/auth/authSlice";
+import { login } from "@/lib/features/auth/authSlice";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+import Image from "next/image";
+import { assets } from "@/assets/assets";
 
 export default function LoginPage() {
   const [form, setForm] = useState({ email: "", password: "" });
@@ -10,46 +13,82 @@ export default function LoginPage() {
   const router = useRouter();
   const { state, error } = useSelector((state) => state.auth);
 
-  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+  const handleChange = (e) =>
+    setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const res = await dispatch(login(form));
+    console.log(res);
     if (res.meta.requestStatus === "fulfilled") {
-      router.push("/dashboard");
+      router.push("/");
     }
   };
-
+  //   console.log(form, state, error);
   return (
-    <div className="flex h-screen items-center justify-center">
-      <form onSubmit={handleSubmit} className="bg-white shadow-md rounded-lg p-8 w-96">
-        <h1 className="text-2xl font-bold mb-6 text-center">Login</h1>
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={form.email}
-          onChange={handleChange}
-          className="border p-2 w-full mb-4 rounded"
-          required
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={form.password}
-          onChange={handleChange}
-          className="border p-2 w-full mb-6 rounded"
-          required
-        />
-        <button
-          type="submit"
-          className="bg-blue-600 text-white py-2 rounded w-full hover:bg-blue-700 transition"
+
+    <div className="lg:flex">
+      <div className="w-[60%] relative bg-green-300 text-green-600 hidden lg:flex lg:flex-col items-center justify-center">
+        <Link
+          href="/"
+          className="absolute text-7xl font-semibold text-slate-700 top-10 left-10"
         >
-          {state === "loading" ? "Logging in..." : "Login"}
-        </button>
-        {error && <p className="text-red-500 text-sm mt-4">{error}</p>}
-      </form>
+          <span className="text-green-600">go</span>cart
+          <span className="text-green-600 text-5xl leading-0">.</span>
+          <p className="absolute text-xs font-semibold -top-1 -right-8 px-3 p-0.5 rounded-full flex items-center gap-2 text-white bg-green-500">
+            plus
+          </p>
+        </Link>
+        <Image
+          className="absolute bottom-8 scale-110"
+          src={assets.LoginImg}
+          alt=""
+        />
+      </div>
+      <div className="lg:w-[40%]">
+        <div className="flex h-screen items-center justify-center w-full ">
+          <form onSubmit={handleSubmit} className="bg-white  p-8 w-120">
+            <h1 className="text-2xl font-bold mb-1 text-center">
+              Welcome to <span className="text-green-600">go</span>cart
+              <span className="text-green-600 text-5xl leading-0">.</span>
+            </h1>
+            <div className="text-black/40 text-sm p-2 w-[100%] text-center mb-6">
+              Don't have an account?{" "}
+              <Link href={"/auth/signup"} className="underline">
+                signup
+              </Link>
+            </div>
+
+            <div className="text-black mb-1 font-medium">Email</div>
+            <input
+              type="email"
+              name="email"
+              placeholder="m@gmail.com"
+              value={form.email}
+              onChange={handleChange}
+              className="border p-2 w-full mb-4 rounded-md border-green-800"
+              required
+            />
+            <div className="text-black mb-1 font-medium">Password</div>
+            <input
+              type="password"
+              name="password"
+              placeholder="password"
+              value={form.password}
+              onChange={handleChange}
+              className="border p-2 w-full mb-6 rounded-md border-green-800 "
+              required
+            />
+            <button
+              type="submit"
+              className="bg-black text-white hover:bg-green-600 py-2 rounded-md w-full hover:scale-101 transition ease-in-out duration-300"
+            >
+              {state === "loading" ? "Logging in..." : "Login"}
+            </button>
+            {error && <p className="text-red-500 text-sm mt-4">{error}</p>}
+          </form>
+        </div>
+      </div>
     </div>
   );
 }
