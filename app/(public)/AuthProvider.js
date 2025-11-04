@@ -11,10 +11,10 @@ export default function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     const token = localStorage.getItem("token");
-    console.log("Retrieved token:", token);
 
     if (!token) {
       dispatch(setUser(null));
+      setLoading(false);
       return;
     }
 
@@ -23,16 +23,12 @@ export default function AuthProvider({ children }) {
       const currentTime = Math.floor(Date.now() / 1000);
 
       if (decoded.exp < currentTime) {
-        console.log("Token expired");
         localStorage.removeItem("token");
         dispatch(setUser(null));
       } else {
-        console.log("Token valid ✅");
         dispatch(setUser(decoded));
-        console.log("Decoded token:", decoded);
       }
     } catch (err) {
-      console.error("Invalid token:", err);
       localStorage.removeItem("token");
       dispatch(setUser(null));
     }
