@@ -1,6 +1,6 @@
 'use client'
 import Banner from "@/components/Banner";
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/NavBar";
 import Footer from "@/components/Footer";
 import AuthProvider from "./AuthProvider";
 
