@@ -45,8 +45,8 @@ export default function LoginPage() {
           alt=""
         />
       </div>
-      <div className="">
-        <div className="flex h-screen items-center justify-center w-full ml-22">
+      <div className="lg:w-[40%]">
+        <div className="flex h-screen items-center justify-center w-full ">
           <form onSubmit={handleSubmit} className="bg-white  p-8 w-120">
             <h1 className="text-2xl font-bold mb-1 text-center">
               Welcome to <span className="text-green-600">go</span>cart
@@ -81,7 +81,7 @@ export default function LoginPage() {
             />
             <button
               type="submit"
-              className="bg-black text-white hover:bg-green-600 py-2 rounded-md w-full hover:scale-102 transition ease-in-out duration-800"
+              className="bg-black text-white hover:bg-green-600 py-2 rounded-md w-full hover:scale-101 transition ease-in-out duration-300"
             >
               {state === "loading" ? "Logging in..." : "Login"}
             </button>

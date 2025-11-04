@@ -25,17 +25,17 @@ export default function SignupPage() {
     e.preventDefault();
     const res = await dispatch(signup(form));
     if (res.meta.requestStatus === "fulfilled") {
-      router.push("/");
+      router.push("/auth/login");
     }
   };
 
   return (
-    <div className="lg:flex">
+    <div className="lg:flex ">
       {/* Image sesssion */}
       <div className="w-[60%] relative bg-green-300 text-green-600 hidden lg:flex lg:flex-col items-center justify-center">
         <Link
           href="/"
-          className="absolute text-7xl font-semibold text-slate-700 top-10 left-10"
+          className="absolute text-7xl font-semibold text-slate-700 top-10 left-10 mouse-pointer"
         >
           <span className="text-green-600">go</span>cart
           <span className="text-green-600 text-5xl leading-0">.</span>
@@ -50,8 +50,8 @@ export default function SignupPage() {
         />
       </div>
       {/* Form session */}
-      <div className="">
-        <div className="flex h-screen items-center justify-center ml-22">
+      <div className="lg:w-[40%]">
+        <div className="flex h-screen items-center justify-center">
           <form onSubmit={handleSubmit} className="bg-white  p-8 w-100">
             <h1 className="text-2xl font-bold mb-1 text-center">
               Create Your Account
@@ -63,8 +63,8 @@ export default function SignupPage() {
             <div className="font-medium">Full Name</div>
             <input
               type="text"
-              name="name"
-              placeholder="name..."
+              name="fullName"
+              placeholder="full name"
               value={form.fullName}
               onChange={handleChange}
               className="border p-2 w-full mb-6 rounded-md border-green-800 "
@@ -73,7 +73,7 @@ export default function SignupPage() {
             <input
               type="text"
               name="name"
-              placeholder="username..."
+              placeholder="username"
               value={form.name}
               onChange={handleChange}
               className="border p-2 w-full mb-6 rounded-md border-green-800 "
@@ -93,7 +93,7 @@ export default function SignupPage() {
             <input
               type="password"
               name="password"
-              placeholder="pass..."
+              placeholder="passwrod"
               value={form.password}
               onChange={handleChange}
               className="border p-2 w-full mb-6 rounded-md border-green-800 "
