@@ -105,7 +105,7 @@ export default function SignupPage() {
             >
               {state === "loading" ? "Signing up..." : "Signup"}
             </button>
-            {error && <p className="text-red-500 text-sm mt-4">{error}</p>}
+            {error && <p className="text-red-500 text-sm mt-4 font-medium">{error}</p>}
             <div className="text-black/40 text-sm p-2 w-[100%] text-center mb-6">
               Already have an Account?{" "}
               <Link href={"/auth/login"} className="underline">

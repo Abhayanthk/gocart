@@ -85,7 +85,7 @@ export default function LoginPage() {
             >
               {state === "loading" ? "Logging in..." : "Login"}
             </button>
-            {error && <p className="text-red-500 text-sm mt-4">{error}</p>}
+            {error && <p className="text-red-500 text-sm mt-4 font-medium">{error}</p>}
           </form>
         </div>
       </div>
