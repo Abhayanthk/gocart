@@ -2,17 +2,19 @@
 import { Search, ShoppingCart } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { use, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import UserDropdown from "./userDropDown";
 
 const Navbar = () => {
   const router = useRouter();
-
   const [search, setSearch] = useState("");
   const cartCount = useSelector((state) => state.cart.total);
   const user = useSelector((state) => state.auth.user);
-  const [isLoggedIn, setIsloggedIn] = useState(!!user);
+  const [isLoggedIn, setIsloggedIn] = useState(false);
+  useEffect(() => {
+    setIsloggedIn(!!user);
+  }, [user]);
 //   console.log(user, isLoggedIn);
 
   const handleSearch = (e) => {

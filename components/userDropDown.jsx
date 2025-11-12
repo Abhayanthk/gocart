@@ -25,7 +25,6 @@ export default function UserDropdown() {
     try {
       setLoading(true);
       await dispatch(logout());
-      router.push("/");
       window.location.href = "/"; // full reload
     } catch (error) {
       console.error("Logout failed:", error);
