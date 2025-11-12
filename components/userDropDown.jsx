@@ -9,7 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { LogOut, Settings, User } from "lucide-react";
+import { LogOut, Settings, User, Package } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "@/lib/features/auth/authSlice";
@@ -24,8 +24,8 @@ export default function UserDropdown() {
   const handleLogout = async () => {
     try {
       setLoading(true);
-      await dispatch(logout()); 
-      router.push("/"); 
+      await dispatch(logout());
+      router.push("/");
       window.location.href = "/"; // full reload
     } catch (error) {
       console.error("Logout failed:", error);
@@ -67,11 +67,18 @@ export default function UserDropdown() {
           <User className="mr-2 h-4 w-4 text-gray-600" /> Profile
         </DropdownMenuItem>
         <DropdownMenuItem
+          onClick={() => router.push("/orders")}
+          className="cursor-pointer"
+        >
+          <Package className="mr-2 h-4 w-4 text-gray-600" /> My Orders
+        </DropdownMenuItem>
+        <DropdownMenuItem
           onClick={() => router.push("/settings")}
           className="cursor-pointer"
         >
           <Settings className="mr-2 h-4 w-4 text-gray-600" /> Settings
         </DropdownMenuItem>
+
         <DropdownMenuSeparator />
         <DropdownMenuItem
           onClick={handleLogout}

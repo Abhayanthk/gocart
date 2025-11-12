@@ -6,33 +6,41 @@ import jwt from "jsonwebtoken";
 const prisma = new PrismaClient();
 
 export const signup = async (req, res) => {
-      try{
-
-            const { name, email, password, fullName = "TEMP" } = req.body;
-            if (!name || !email || !password || !fullName) {
-                  return res
-                  .status(400)
-                  .json({ message: "Please provide all required fields" });
-            }
-            const existingUser = await prisma.account.findUnique({ where: { email } });
-            if (existingUser) {
-                  return res.status(400).json({ message: "User already exists" });
-            }
-            const hashedPassword = await bcypt.hash(password, 10);
-            // console.log("Creating user:", {name, email, fullName, password: hashedPassword});
-            const user = await prisma.account.create({
-                  data: {
-                        username: name,
-                        email,
-                        password: hashedPassword,
-                        fullName,
-                  },
-            });
-            const token = generateToken(user);
-            return res.status(201).json({ user, token });
-      } catch (error) {
-            return res.status(500).json({ message: "Server error" });
-      }
+  try {
+    const { name, email, password, fullName = "TEMP" } = req.body;
+    if (!name || !email || !password || !fullName) {
+      return res
+        .status(400)
+        .json({ message: "Please provide all required fields" });
+    }
+    const existingUser = await prisma.account.findUnique({ where: { email } });
+    if (existingUser) {
+      return res.status(400).json({ message: "User already exists" });
+    }
+    const hashedPassword = await bcypt.hash(password, 10);
+    // console.log("Creating user:", {name, email, fullName, password: hashedPassword});
+    const user = await prisma.account.create({
+      data: {
+        username: name,
+        email,
+        password: hashedPassword,
+        fullName,
+      },
+    });
+    await prisma.user.create({
+      data: {
+        id: user.id.toString(),
+        username: user.username,
+        fullName: user.fullName,
+        password: user.password,
+        email,
+      },
+    });
+    const token = generateToken(user);
+    return res.status(201).json({ user, token });
+  } catch (error) {
+    return res.status(500).json({ message: "Server error" });
+  }
 };
 
 export const login = async (req, res) => {
@@ -82,7 +90,7 @@ export const logout = async (req, res) => {
     const user = await prisma.account.delete({ where: { id: decoded.id } });
     return res.status(200).json({ message: "Logged out successfully" });
   } catch (error) {
-        console.error("🔥 Logout Server Error:", error);
+    console.error("🔥 Logout Server Error:", error);
     if (
       error.name === "JsonWebTokenError" ||
       error.name === "TokenExpiredError"
