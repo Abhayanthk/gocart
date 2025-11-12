@@ -33,7 +33,7 @@ export async function POST(request) {
     const token = generateToken(user);
     return NextResponse.json({ user, token }, { status: 201 });
   } catch (err) {
-    console.log(err);
+    console.log(err, "error from the login route");
     return NextResponse.json(
       { message: err.message || err.code || "Internal server error" },
       { status: 500 }

@@ -1,8 +1,8 @@
 import { connect, useSelector } from "react-redux";
 import { NextResponse } from "next/server";
-import imagekit from "../congifs/imageKit";
+import imagekit from "@/congifs/imageKit";
 import { format } from "date-fns";
-const prisma = require("../lib/prisma");
+const prisma = require("@/lib/prisma");
 
 export async function POST(request) {
   const { user } = useSelector((state) => state.auth);
