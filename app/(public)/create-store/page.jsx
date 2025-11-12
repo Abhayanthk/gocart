@@ -37,7 +37,6 @@ export default function CreateStore() {
         e.preventDefault()
         // Logic to submit the store details
 
-
     }
 
     useEffect(() => {
