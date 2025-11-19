@@ -1,5 +1,5 @@
 import bcypt from "bcryptjs";
-import { generateToken } from "@/auth/utilities/generateToken";
+import { generateToken } from "@/utilities/generateToken";
 import { NextResponse } from "next/server";
 const prisma = require("@/lib/prisma");
 
@@ -28,6 +28,16 @@ export async function POST(request) {
       fullName,
     },
   });
+  await prisma.user.create({
+    data: {
+      id: user.id.toString(),
+      username: name,
+      fullName,
+      email,
+      password: hashedPassword,
+    },
+  });
+
   const token = generateToken(user);
   return NextResponse.json({ user, token }, { status: 201 });
-};
+}

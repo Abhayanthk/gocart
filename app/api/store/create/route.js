@@ -39,8 +39,7 @@ export async function POST(request) {
     if (store) {
       return NextResponse.json(
         { message: "Store already exists" },
-        { status: 400 },
-        { statusText: store.status }
+        { status: 400, statusText: store.status }
       );
     }
     const arrayBuffer = await image.arrayBuffer();
@@ -94,7 +93,7 @@ export async function POST(request) {
     if (err.code === "P2002") {
       return NextResponse.json(
         { message: "username already taken" },
-        { status: 400 }
+        { status: 400, statusText: "username already taken" }
       );
     }
     return NextResponse.json(

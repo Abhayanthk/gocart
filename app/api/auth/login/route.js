@@ -1,5 +1,5 @@
 import bcypt from "bcryptjs";
-import { generateToken } from "@/auth/utilities/generateToken";
+import { generateToken } from "@/utilities/generateToken";
 import { NextResponse } from "next/server";
 const prisma = require("@/lib/prisma");
 
@@ -31,7 +31,18 @@ export async function POST(request) {
       );
     }
     const token = generateToken(user);
-    return NextResponse.json({ user, token }, { status: 201 });
+    const response = NextResponse.json(
+      { message: "Login success", user, token },
+      { status: 201 }
+    );
+    response.cookies.set("token", token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "strict",
+      path: "/",
+      maxAge: 7 * 24 * 60 * 60, // 7 days
+    });
+    return response;
   } catch (err) {
     console.log(err, "error from the login route");
     return NextResponse.json(
