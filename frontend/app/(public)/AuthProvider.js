@@ -13,6 +13,7 @@ export default function AuthProvider({ children }) {
     const fetchUser = async () => {
       try {
         const res = await axios.get(`${url}/me`, { withCredentials: true });
+        console.log(res.data);
 
         if (res.data?.user) {
           dispatch(setUser(res.data.user));
@@ -20,6 +21,7 @@ export default function AuthProvider({ children }) {
           dispatch(setUser(null));
         }
       } catch (err) {
+            console.log("Error fetching user:", err);
         dispatch(setUser(null)); 
       } finally {
         setLoading(false);

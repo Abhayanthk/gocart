@@ -29,7 +29,7 @@ export default function AdminApprove() {
 
   useEffect(() => {
     fetchStores();
-  }, []);
+  }, [url]);
 
   return !loading ? (
     <div className="text-slate-500 mb-28">
