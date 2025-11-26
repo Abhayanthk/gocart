@@ -1,7 +1,7 @@
 'use client'
 import Link from "next/link"
 import { useSelector } from "react-redux"
-import UserDropdown from "@/frontend/components/UserDropdown";
+import Dropdown from "@/frontend/components/UserDropdown";
 const AdminNavbar = () => {
       const { user } = useSelector((state) => state.auth);
 
@@ -15,7 +15,7 @@ const AdminNavbar = () => {
             </Link>
             <div className="flex items-center gap-3 text-lg font-medium">
                 <p>Admin <span className="font-bold text-red-500">{user?.fullName || user?.username || user?.name || 'Admin'}</span></p>
-                  <UserDropdown />
+                  <Dropdown />
             </div>
         </div>
     )

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import UserDropdown from "./userDropDown";
+import UserDropdown from "./UserDropdown";
 
 const Navbar = () => {
   const router = useRouter();

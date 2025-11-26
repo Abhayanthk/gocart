@@ -15,7 +15,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { logout } from "@/frontend/lib/features/auth/authSlice";
 import Loading from "./Loading";
 import { set } from "date-fns";
-export default function UserDropdown() {
+export default function Dropdown() {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const user = useSelector((state) => state.auth.user);
