@@ -32,11 +32,14 @@ export default function Dropdown() {
       setLoading(false);
     }
   };
-  if (loading) {
-    return <Loading />;
-  }
   return (
-    <DropdownMenu open={open} onOpenChange={setOpen}>
+    <>
+      {loading && (
+        <div className="fixed inset-0 z-50 bg-white/60 backdrop-blur-sm flex items-center justify-center">
+             <div className='w-11 h-11 rounded-full border-3 border-gray-300 border-t-green-500 animate-spin'></div>
+        </div>
+      )}
+      <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger className="outline-none">
         <Avatar className="cursor-pointer ring-2 ring-green-500/30 hover:ring-green-500 transition-all duration-200">
           <AvatarImage src="/avatar.png" alt="@user" />
@@ -87,5 +90,6 @@ export default function Dropdown() {
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
+    </>
   );
 }
