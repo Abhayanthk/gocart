@@ -14,6 +14,7 @@ app.use(cookieParser());
 
 dotenv.config();
 app.use(express.json());
+app.set("trust proxy", 1);
 app.use(cors({
   origin: process.env.NEXT_PUBLIC_URL || "http://localhost:3000",
   credentials: true
