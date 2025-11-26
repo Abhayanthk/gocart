@@ -8,19 +8,30 @@ const adminLogin = async (req, res) => {
       where: { email },
     });
     if (!admin) {
-      return res.status(404).json({ message: "email or password is incorrect" });
+      return res
+        .status(404)
+        .json({ message: "email or password is incorrect" });
     }
     if (admin.password !== password) {
-      return res.status(401).json({ message: "email or password is incorrect" });
+      return res
+        .status(401)
+        .json({ message: "email or password is incorrect" });
     }
 
     const token = generateToken(admin, "admin");
+//     res.cookie("token", token, {
+//       httpOnly: true,
+//       secure: false, // Set to true in production if using HTTPS
+//       sameSite: "lax",
+//       path: "/",
+//       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+//     });
     res.cookie("token", token, {
       httpOnly: true,
-      secure: false, // Set to true in production if using HTTPS
-      sameSite: "lax",
+      secure: true, // ✅ Required for HTTPS
+      sameSite: "none", // ✅ Required for cross-site requests
       path: "/",
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
     return res.status(200).json({
