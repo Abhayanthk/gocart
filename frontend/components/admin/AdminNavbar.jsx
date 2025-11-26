@@ -1,7 +1,7 @@
 'use client'
 import Link from "next/link"
 import { useSelector } from "react-redux"
-import Dropdown from "../UserDropDown";
+import Dropdown from "../userDropDown";
 const AdminNavbar = () => {
       const { user } = useSelector((state) => state.auth);
 
