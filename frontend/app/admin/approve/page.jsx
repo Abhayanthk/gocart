@@ -9,10 +9,10 @@ import toast from "react-hot-toast";
 export default function AdminApprove() {
   const [stores, setStores] = useState([]);
   const [loading, setLoading] = useState(true);
-  const url = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+  const url = "/api";
   const fetchStores = async () => {
     try {
-      const { data } = await axios.get(`${url}/admin/approve-stores`, {
+      const { data } = await axios.get(`${url}/admin/approve-stores`, { 
         withCredentials: true,
       });
       setStores(data.stores)

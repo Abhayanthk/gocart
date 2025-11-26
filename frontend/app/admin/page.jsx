@@ -26,10 +26,10 @@ export default function AdminDashboard() {
         { title: 'Total Orders', value: dashboardData.orders, icon: TagsIcon },
         { title: 'Total Stores', value: dashboardData.stores, icon: StoreIcon },
     ]
-    const url = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+    const apiUrl = "/api";
     const fetchDashboardData = async () => {
             try {
-                  const {data} = await axios.get(url + "/admin/dashboard", { withCredentials: true });
+                  const {data} = await axios.get(apiUrl + "/admin/dashboard", { withCredentials: true });
                   setDashboardData(data.dashboardData);
                   
             } catch (error) {

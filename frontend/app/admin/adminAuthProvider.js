@@ -12,11 +12,11 @@ export default function AdminAuthProvider({ children }) {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const [loading, setLoading] = useState(true);
-  const url = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
+  const apiUrl = "/api";            
   useEffect(() => {
     const verifyUser = async () => {
       try {
-        const res = await axios.get(`${url}/me`, { withCredentials: true });
+        const res = await axios.get(`${apiUrl}/me`, { withCredentials: true });
 
             dispatch(setUser(res.data.user));
         if (!res.data.user) {

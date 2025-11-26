@@ -30,7 +30,7 @@ export default function CreateStore() {
   const onChangeHandler = (e) => {
     setStoreInfo({ ...storeInfo, [e.target.name]: e.target.value });
   };
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
+  const apiUrl = "/api";
   const fetchSellerStatus = async () => {
     try {
       const { data } = await axios.get(`${apiUrl}/store/create`, {
