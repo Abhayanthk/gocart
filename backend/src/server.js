@@ -15,10 +15,28 @@ app.use(cookieParser());
 dotenv.config();
 app.use(express.json());
 app.set("trust proxy", 1);
-app.use(cors({
-  origin: process.env.NEXT_PUBLIC_URL || "http://localhost:3000",
-  credentials: true
-}));
+
+const allowedOrigins = [
+  "http://localhost:3000",
+  process.env.NEXT_PUBLIC_URL, // Ensure this is set in your .env
+];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      console.log("Request Origin:", origin);
+      console.log("Allowed Origins:", allowedOrigins);
+      
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        console.log("Blocked by CORS:", origin);
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
+  })
+);
 app.use(express.json());
 
 app.use("/auth", authRoutes);
