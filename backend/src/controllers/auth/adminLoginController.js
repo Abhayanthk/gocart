@@ -26,10 +26,12 @@ const adminLogin = async (req, res) => {
 //       path: "/",
 //       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
 //     });
+    const isProduction = process.env.NODE_ENV === "production";
+
     res.cookie("token", token, {
       httpOnly: true,
-      secure: true, // ✅ Required for HTTPS
-      sameSite: "none", // ✅ Required for cross-site requests
+      secure: isProduction, // true in production, false in dev
+      sameSite: isProduction ? "none" : "lax", // "none" for cross-site (prod), "lax" for same-site (dev)
       path: "/",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
