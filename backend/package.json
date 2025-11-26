@@ -1,0 +1,19 @@
+{
+    "dependencies": {
+        "@imagekit/nodejs": "^7.1.1",
+        "@prisma/client": "^6.18.0",
+        "axios": "^1.13.1",
+        "bcryptjs": "^3.0.2",
+        "class-variance-authority": "^0.7.1",
+        "clsx": "^2.1.1",
+        "cookie-parser": "^1.4.7",
+        "cors": "^2.8.5",
+        "express": "^5.1.0",
+        "install": "^0.13.0",
+        "jsonwebtoken": "^9.0.2",
+        "jwt-decode": "^4.0.0",
+        "multer": "^2.0.2",
+        "npm": "^11.6.3",
+        "prisma": "^6.18.0"
+    }
+}
