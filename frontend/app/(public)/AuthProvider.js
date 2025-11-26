@@ -8,7 +8,7 @@ import axios from "axios";
 export default function AuthProvider({ children }) {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
-  const url = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
+  const url = "/api";
   useEffect(() => {
     const fetchUser = async () => {
       try {
