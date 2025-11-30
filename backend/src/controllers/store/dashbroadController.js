@@ -1,17 +1,10 @@
 // get Dashboard data for the sellers
 
-const { getUserData } = require("../../utilities/getUserData");
 const prisma = require("../../../prisma/prisma");
-const { authSeller } = require("../../middlewares/authSeller");
 
 async function getDashboard(req, res) {
   try {
-    const userData = await getUserData(req);
-    const storeId = await authSeller(userData.id);
-    if (!storeId) {
-      return res.status(401).json({ error: "Unauthorized: Store not found or not approved" });
-    }
-    // Get all orders for the sellers
+    const storeId = req.storeId;
     const orders = await prisma.order.findMany({
       where: {
         storeId,
@@ -52,6 +45,5 @@ async function getDashboard(req, res) {
 }
 
 module.exports = {
-    getDashboard
+  getDashboard,
 };
-

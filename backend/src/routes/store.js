@@ -14,6 +14,10 @@ const {
 const {
   toggleStock,
 } = require("../controllers/store/stock-toggleController.js");
+const {
+  getOrders,
+  updateOrderStatus,
+} = require("../controllers/store/ordersController.js");
 const router = Router();
 
 router.post("/create", upload.single("image"), createStore);
@@ -23,5 +27,7 @@ router.get("/is-seller", isSeller);
 router.post("/product", upload.array("images", 10), addProduct);
 router.get("/products", getProducts);
 router.post("/stock-toggle", toggleStock);
+router.get("/orders", getOrders);
+router.post("/order-status", updateOrderStatus);
 
 module.exports = router;

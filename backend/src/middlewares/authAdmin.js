@@ -23,7 +23,7 @@ const authAdmin = async (req, res, next) => {
 
     // Attach admin data to request for use in controllers
     req.admin = admin;
-    req.user = userData;
+    req.userData = userData;
     next();
   } catch (err) {
     console.log("AuthAdmin Error:", err);

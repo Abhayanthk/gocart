@@ -78,12 +78,7 @@ async function addProduct(req, res) {
 // get all proudcts for a seller
 async function getProducts(req, res) {
   try {
-    const userData = await getUserData(req);
-    // get storeId from authSeller middleware
-    const storeId = await authSeller(userData.id);
-    if (!storeId) {
-      return res.status(401).json({ error: "not authorized" });
-    }
+    const storeId = req.storeId;
     const products = await prisma.product.findMany({
       where: {
         storeId,

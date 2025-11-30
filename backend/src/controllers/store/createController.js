@@ -1,10 +1,9 @@
 const { imagekit } = require("../../../config/imageKit");
-const { getUserData } = require("../../utilities/getUserData");
 const prisma = require("../../../prisma/prisma");
 
 async function createStore(req, res) {
   try {
-    const userData = await getUserData(req);
+    const userData = req.userData;
     // Collect, store, and send key–value pairs (like form inputs) in HTTP requests — including file uploads.
     const { name, username, description, email, contact, address } = req.body;
     const image = req.file;
@@ -19,16 +18,6 @@ async function createStore(req, res) {
     ) {
       return res.status(400).json({ message: "All fields are required" });
     }
-
-    const store = await prisma.store.findUnique({
-      where: {
-        userId: userData.id.toString(),
-      },
-    });
-    if (store) {
-      return res.status(400).json({ message: "Store already exists" });
-    }
-
     let fileData;
     if (image.buffer) {
       fileData = image.buffer.toString("base64");
@@ -95,13 +84,8 @@ async function createStore(req, res) {
 }
 
 async function getStore(req, res) {
-  const userData = await getUserData(req);
   try {
-    const store = await prisma.store.findUnique({
-      where: {
-        userId: userData.id.toString(),
-      },
-    });
+    const store = req.storeInfo;
     if (store) return res.status(200).json({ status: store.status, store });
     return res.status(200).json({ status: "not registered" });
   } catch (err) {

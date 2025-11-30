@@ -7,10 +7,10 @@ const meRoutes = require("./routes/me.js");
 const adminRoutes = require("./routes/admin.js");
 const cookieParser = require("cookie-parser");
 const { authAdmin } = require("./middlewares/authAdmin.js");
+const { sellerMiddleware } = require("./middlewares/sellerMiddleware.js");
 
 const app = express();
 app.use(cookieParser());
-
 
 dotenv.config();
 app.use(express.json());
@@ -26,7 +26,7 @@ app.use(
     origin: function (origin, callback) {
       console.log("Request Origin:", origin);
       console.log("Allowed Origins:", allowedOrigins);
-      
+
       if (!origin || allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
@@ -40,7 +40,7 @@ app.use(
 app.use(express.json());
 
 app.use("/auth", authRoutes);
-app.use("/store", storeRoutes);
+app.use("/store", sellerMiddleware, storeRoutes);
 app.use("/me", meRoutes);
 app.use("/admin", authAdmin, adminRoutes);
 
