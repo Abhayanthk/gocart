@@ -1,9 +1,9 @@
 "use client";
-import { assets } from "@/frontend/assets/assets";
+import { assets } from "@/assets/assets";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import toast from "react-hot-toast";
-import Loading from "@/frontend/components/Loading";
+import Loading from "@/components/Loading";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import axios from "axios";

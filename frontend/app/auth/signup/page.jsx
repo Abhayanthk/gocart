@@ -1,11 +1,11 @@
 "use client";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { signup } from "@/frontend/lib/features/auth/authSlice";
+import { signup } from "@/lib/features/auth/authSlice";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { assets } from "@/frontend/assets/assets";
+import { assets } from "@/assets/assets";
 
 export default function SignupPage() {
   const [form, setForm] = useState({

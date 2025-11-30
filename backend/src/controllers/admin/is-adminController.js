@@ -1,10 +1,9 @@
-// Auth Amdin 
-async function isAdmin(req, res){
-      try{
-            return res.status(200).json({ isAdmin: true });
-      }catch(err){
-            console.log(err);
-            return res.status(400).json({ error: err.code || err.message });
-      }     
-}
+const isAdmin = async (req, res) => {
+  try {
+    res.status(200).json({ isAdmin: true, user: req.user });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: err.message || err.code });
+  }
+};
 module.exports = { isAdmin };

@@ -4,6 +4,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
+        //   whiteLIsting the imagekit.io domain
         hostname: "ik.imagekit.io",
         port: "",
         pathname: "/**",
@@ -13,6 +14,7 @@ const nextConfig = {
   async rewrites() {
     return [
       {
+            // Using Alias for API URL so the cookies send from the backend appear like first party cookies 
         source: "/api/:path*",
         destination: `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000"}/:path*`,
       },

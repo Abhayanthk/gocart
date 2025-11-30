@@ -4,7 +4,7 @@ const prisma = require("../../prisma/prisma");
 const authAdmin = async (req, res, next) => {
   try {
     const userData = getUserData(req);
-    
+
     // Check if getUserData returned an error object
     if (userData.status === 401 || !userData.id) {
       console.log("AuthAdmin: Invalid token or no token");
@@ -13,7 +13,7 @@ const authAdmin = async (req, res, next) => {
 
     // Verify if the user exists in the Admin table
     const admin = await prisma.admin.findUnique({
-      where: { id: userData.id },
+      where: { id: userData.id.toString() },
     });
 
     if (!admin) {
@@ -23,10 +23,11 @@ const authAdmin = async (req, res, next) => {
 
     // Attach admin data to request for use in controllers
     req.admin = admin;
+    req.user = userData;
     next();
   } catch (err) {
     console.log("AuthAdmin Error:", err);
-    return res.status(500).json({ message: "Internal server error" });
+    return res.status(500).json({ error: err.code || err.message });
   }
 };
 

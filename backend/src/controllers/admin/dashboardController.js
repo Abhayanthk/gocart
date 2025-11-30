@@ -28,7 +28,7 @@ async function getDashboardData(req, res) {
     };
     return res.status(200).json({ dashboardData });
   } catch (error) {
-    console.log(error);
+    console.error("Dashboard Error:", error);
     return res.status(500).json({
       error: error.code || error.message
     });

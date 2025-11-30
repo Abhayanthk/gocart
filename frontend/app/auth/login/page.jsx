@@ -1,17 +1,19 @@
 "use client";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "@/frontend/lib/features/auth/authSlice";
+import { login } from "@/lib/features/auth/authSlice";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { assets } from "@/frontend/assets/assets";
+import { assets } from "@/assets/assets";
 
-export default function LoginPage() {
+export default function LoginPage({ searchParams }) {
   const [form, setForm] = useState({ email: "", password: "" });
   const dispatch = useDispatch();
   const router = useRouter();
   const { state, error } = useSelector((state) => state.auth);
+
+  const redirect = searchParams?.redirect || "/";
 
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -21,12 +23,11 @@ export default function LoginPage() {
     const res = await dispatch(login(form));
     console.log(res);
     if (res.meta.requestStatus === "fulfilled") {
-      router.push("/");
+      router.push(redirect);
     }
   };
   //   console.log(form, state, error);
   return (
-
     <div className="lg:flex">
       <div className="w-[60%] relative bg-green-300 text-green-600 hidden lg:flex lg:flex-col items-center justify-center">
         <Link
@@ -85,7 +86,9 @@ export default function LoginPage() {
             >
               {state === "loading" ? "Logging in..." : "Login"}
             </button>
-            {error && <p className="text-red-500 text-sm mt-4 font-medium">{error}</p>}
+            {error && (
+              <p className="text-red-500 text-sm mt-4 font-medium">{error}</p>
+            )}
           </form>
         </div>
       </div>

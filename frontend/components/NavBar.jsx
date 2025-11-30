@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import UserDropdown from "./userDropDown";
+import UserDropdown from "./UserDropDown";
 
 const Navbar = () => {
   const router = useRouter();
@@ -15,7 +15,7 @@ const Navbar = () => {
   useEffect(() => {
     setIsloggedIn(!!user);
   }, [user]);
-//   console.log(user, isLoggedIn);
+  //   console.log(user, isLoggedIn);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -70,7 +70,7 @@ const Navbar = () => {
               </button>
             </Link>
             {isLoggedIn ? (
-                  <UserDropdown />
+              <UserDropdown />
             ) : (
               <Link href="/auth/login">
                 <button className="px-8 py-2 bg-indigo-500 hover:bg-indigo-600 transition text-white rounded-full">

@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { productDummyData } from '@/frontend/assets/assets'
+import { productDummyData } from '@/assets/assets'
 
 const productSlice = createSlice({
     name: 'product',

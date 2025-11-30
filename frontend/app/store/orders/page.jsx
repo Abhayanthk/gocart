@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useState } from "react"
-import Loading from "@/frontend/components/Loading"
-import { orderDummyData } from "@/frontend/assets/assets"
+import Loading from "@/components/Loading"
+import { orderDummyData } from "@/assets/assets"
 
 export default function StoreOrders() {
     const [orders, setOrders] = useState([])

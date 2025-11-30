@@ -1,5 +1,5 @@
 'use client'
-import { addToCart, removeFromCart } from "@/frontend/lib/features/cart/cartSlice";
+import { addToCart, removeFromCart } from "@/lib/features/cart/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 const Counter = ({ productId }) => {

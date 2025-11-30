@@ -6,6 +6,8 @@ node_modules/
 out/
 build/
 dist/
+.vscode/
+.gitignore
 
 # --- Environment Variables (Sensitive data in all folders) ---
 .env

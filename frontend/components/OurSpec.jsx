@@ -1,7 +1,7 @@
 import React from 'react'
 import Title from './Title'
 // Nice method, by putting the title discription, icon and accent color we can dynamically generate the specs section
-import { ourSpecsData } from '@/frontend/assets/assets'
+import { ourSpecsData } from '@/assets/assets'
 
 
 const OurSpecs = () => {

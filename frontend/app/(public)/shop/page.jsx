@@ -1,6 +1,6 @@
 'use client'
 import { Suspense } from "react"
-import ProductCard from "@/frontend/components/ProductCard"
+import ProductCard from "@/components/ProductCard"
 import { MoveLeftIcon } from "lucide-react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useSelector } from "react-redux"

@@ -1,7 +1,7 @@
 "use client";
-import { storesDummyData } from "@/frontend/assets/assets";
-import StoreInfo from "@/frontend/components/admin/StoreInfo";
-import Loading from "@/frontend/components/Loading";
+import { storesDummyData } from "@/assets/assets";
+import StoreInfo from "@/components/admin/StoreInfo";
+import Loading from "@/components/Loading";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
@@ -12,19 +12,35 @@ export default function AdminApprove() {
   const url = "/api";
   const fetchStores = async () => {
     try {
-      const { data } = await axios.get(`${url}/admin/approve-stores`, { 
+      const { data } = await axios.get(`${url}/admin/approve-stores`, {
         withCredentials: true,
       });
-      setStores(data.stores)
+      setStores(data.stores);
     } catch (error) {
       console.error("Error fetching stores:", error);
-      toast.error(error?.response?.data?.message || error.message)
+      toast.error(error?.response?.data?.message || error.message);
     }
     setLoading(false);
   };
 
   const handleApprove = async ({ storeId, status }) => {
-    // Logic to approve a store
+    try {
+      const { data } = await axios.post(
+        `${url}/admin/approve`,
+        {
+          storeId,
+          status,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      toast.success(data.message);
+      await fetchStores();
+    } catch (error) {
+      console.error("Error approving store:", error);
+      toast.error(error?.response?.data?.message || error.message);
+    }
   };
 
   useEffect(() => {

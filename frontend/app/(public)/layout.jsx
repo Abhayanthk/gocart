@@ -1,7 +1,7 @@
 'use client'
-import Banner from "@/frontend/components/Banner";
-import Navbar from "@/frontend/components/NavBar";
-import Footer from "@/frontend/components/Footer";
+import Banner from "@/components/Banner";
+import Navbar from "@/components/NavBar";
+import Footer from "@/components/Footer";
 import AuthProvider from "./AuthProvider";
 
 export default function PublicLayout({ children }) {

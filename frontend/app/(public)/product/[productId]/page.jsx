@@ -1,6 +1,6 @@
 'use client'
-import ProductDescription from "@/frontend/components/ProductDescription";
-import ProductDetails from "@/frontend/components/ProductDetails";
+import ProductDescription from "@/components/ProductDescription";
+import ProductDetails from "@/components/ProductDetails";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";

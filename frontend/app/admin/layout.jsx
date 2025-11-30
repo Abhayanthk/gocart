@@ -1,5 +1,5 @@
 'use client';
-import AdminLayout from "@/frontend/components/admin/AdminLayout";
+import AdminLayout from "@/components/admin/AdminLayout";
 import AdminAuthProvider from "./adminAuthProvider";
 
 export default function RootAdminLayout({ children }) {

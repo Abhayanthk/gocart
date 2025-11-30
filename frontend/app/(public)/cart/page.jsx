@@ -1,8 +1,8 @@
 'use client'
-import Counter from "@/frontend/components/Counter";
-import OrderSummary from "@/frontend/components/OrderSummary";
-import PageTitle from "@/frontend/components/PageTitle";
-import { deleteItemFromCart } from "@/frontend/lib/features/cart/cartSlice";
+import Counter from "@/components/Counter";
+import OrderSummary from "@/components/OrderSummary";
+import PageTitle from "@/components/PageTitle";
+import { deleteItemFromCart } from "@/lib/features/cart/cartSlice";
 import { Grab, Trash2Icon } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";

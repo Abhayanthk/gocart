@@ -1,8 +1,8 @@
 "use client";
 import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
-import { setUser } from "@/frontend/lib/features/auth/authSlice";
-import Loading from "@/frontend/components/Loading";
+import { setUser } from "@/lib/features/auth/authSlice";
+import Loading from "@/components/Loading";
 import axios from "axios";
 
 export default function AuthProvider({ children }) {
