@@ -6,9 +6,8 @@ const prisma = require("../../../prisma/prisma");
 // Add new Product
 async function addProduct(req, res) {
   try {
-    const userData = await getUserData(req);
     // get storeId from authSeller middleware
-    const storeId = await authSeller(userData.id);
+    const { storeId } = req;
     if (!storeId) {
       return res.status(401).json({ error: "not authorized" });
     }

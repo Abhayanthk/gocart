@@ -1,9 +1,10 @@
 const { imagekit } = require("../../../config/imageKit");
 const prisma = require("../../../prisma/prisma");
+const { getUserData } = require("../../utilities/getUserData");
 
 async function createStore(req, res) {
   try {
-    const userData = req.userData;
+    const userData = getUserData(req);
     // Collect, store, and send key–value pairs (like form inputs) in HTTP requests — including file uploads.
     const { name, username, description, email, contact, address } = req.body;
     const image = req.file;
@@ -50,7 +51,7 @@ async function createStore(req, res) {
 
     const newStore = await prisma.store.create({
       data: {
-        userId: userData.id.toString(),
+        userId: userData?.id.toString(),
         name,
         description,
         username: username.toLowerCase(),

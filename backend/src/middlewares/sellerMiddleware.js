@@ -3,12 +3,18 @@ const { authSeller } = require("./authSeller");
 
 const sellerMiddleware = async (req, res, next) => {
   try {
-    const userData = await getUserData(req);
+    if (req.path === "/create") {
+      return next();
+    }
+    const userData = getUserData(req);
     if (!userData) {
       return res.status(401).json({ error: "Unauthorized" });
     }
     const storeInfo = await authSeller(userData.id.toString());
-    const storeId = storeInfo.id;
+    if (!storeInfo) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+    const storeId = storeInfo?.id;
     if (!storeId) {
       return res.status(401).json({ error: "Unauthorized" });
     }

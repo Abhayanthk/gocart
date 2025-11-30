@@ -1,18 +1,12 @@
-const { authSeller } = require("../../middlewares/authSeller");
-const { getUserData } = require("../../utilities/getUserData");
 const prisma = require("../../../prisma/prisma");
 
 // toggle stock of a product
 async function toggleStock(req, res) {
   try {
-    const userData = await getUserData(req);
+    const storeId = req.storeId;
     const { productId } = req.body;
     if (!productId) {
       return res.status(400).json({ error: "Product ID is required" });
-    }
-    const storeId = await authSeller(userData.id);
-    if (!storeId) {
-      return res.status(401).json({ error: "Unauthorized" });
     }
     const product = await prisma.product.findFirst({
       where: { id: productId, storeId },
