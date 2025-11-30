@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "@/lib/features/product/productSlice";
 import { fetchCart, uploadCart } from "@/lib/features/cart/cartSlice";
 import Loading from "@/components/Loading";
+import { fetchAddress } from "@/lib/features/address/addressSlice";
 
 export default function PublicLayout({ children }) {
   const dispatch = useDispatch();
@@ -16,6 +17,7 @@ export default function PublicLayout({ children }) {
   useEffect(() => {
     dispatch(fetchProducts({}));
     dispatch(fetchCart({}));
+    dispatch(fetchAddress({}));
     setLoading(false);
   }, []);
   useEffect(() => {
