@@ -31,7 +31,7 @@ export default function StoreAuthProvider({ children }) {
     };
 
     verifyUser();
-  }, [dispatch, router]);
+  }, [dispatch, router, pathname]);
 
   if (loading || !user) return <Loading />;
 

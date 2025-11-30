@@ -36,7 +36,7 @@ export default function StoreAddProduct() {
     e.preventDefault();
     try {
       // if no images are uploaded then return
-      if (!images[1] || !images[2] || !images[3] || !images[4]) {
+      if (!images[1] && !images[2] && !images[3] && !images[4]) {
         toast.error("Please upload all images");
         return;
       }

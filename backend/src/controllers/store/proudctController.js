@@ -84,12 +84,12 @@ async function getProducts(req, res) {
     if (!storeId) {
       return res.status(401).json({ error: "not authorized" });
     }
-    const proudcts = await prisma.product.findMany({
+    const products = await prisma.product.findMany({
       where: {
         storeId,
       },
     });
-    return res.status(200).json({ proudcts });
+    return res.status(200).json({ products });
   } catch (err) {
     console.log(err);
     return res.status(500).json({
