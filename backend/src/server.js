@@ -11,6 +11,8 @@ const { sellerMiddleware } = require("./middlewares/sellerMiddleware.js");
 const productRoutes = require("./routes/products.js");
 const cartRoutes = require("./routes/cart.js");
 const addressRoutes = require("./routes/address.js");
+const couponRoutes = require("./routes/coupon.js");
+const ordersRoutes = require("./routes/orders.js");
 
 const app = express();
 app.use(cookieParser());
@@ -49,6 +51,8 @@ app.use("/admin", authAdmin, adminRoutes);
 app.use("/products", productRoutes);
 app.use("/cart", cartRoutes);
 app.use("/address", addressRoutes);
+app.use("/coupon", couponRoutes);
+app.use("/orders", ordersRoutes);
 
 app.get("/", (req, res) => {
   res.send("✅ Main Server is running");

@@ -1,14 +1,17 @@
 import { PlusIcon, SquarePenIcon, XIcon } from "lucide-react";
 import React, { useState } from "react";
 import AddressModal from "./AddressModal";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import axios from "axios";
+import { fetchCart } from "@/lib/features/cart/cartSlice";
 
 const OrderSummary = ({ totalPrice, items }) => {
   const currency = process.env.NEXT_PUBLIC_CURRENCY_SYMBOL || "$";
 
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const addressList = useSelector((state) => state.address.list);
 
@@ -17,14 +20,63 @@ const OrderSummary = ({ totalPrice, items }) => {
   const [showAddressModal, setShowAddressModal] = useState(false);
   const [couponCodeInput, setCouponCodeInput] = useState("");
   const [coupon, setCoupon] = useState("");
+  const { user } = useSelector((state) => state.auth);
   const handleCouponCode = async (event) => {
     event.preventDefault();
+    try {
+      if (!user) {
+        toast.error("Please login to apply coupon");
+        return;
+      }
+      const { data } = await axios.post(
+        "/api/coupon/verify",
+        { code: couponCodeInput },
+        { withCredentials: true }
+      );
+      console.log(data);
+      setCoupon(data.coupon);
+      toast.success("Coupon applied successfully");
+    } catch (error) {
+      console.log(error);
+      toast.error("Invalid coupon code");
+    }
   };
 
   const handlePlaceOrder = async (e) => {
     e.preventDefault();
-
-    router.push("/orders");
+    try {
+      if (!user) {
+        toast.error("Please login to place an order");
+        return;
+      }
+      if (!selectedAddress) {
+        toast.error("Please select an address");
+        return;
+      }
+      const orderData = {
+        addressId: selectedAddress.id,
+        items,
+        paymentMethod,
+      };
+      if (coupon) {
+        orderData.couponCode = coupon.code;
+      }
+      const { data } = await axios.post(
+        "/api/orders/create",
+        { orderData },
+        { withCredentials: true }
+      );
+      if (paymentMethod === "STRIPE") {
+        window.location.href = data.session.url;
+      } else {
+        toast.success(data.message);
+      }
+      dispatch(fetchCart({}));
+      router.push("/orders");
+    } catch (error) {
+      console.log(error);
+      toast.error(error?.response?.data?.message || "Something went wrong");
+    }
   };
 
   return (
