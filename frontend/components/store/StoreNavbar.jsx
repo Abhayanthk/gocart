@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import Dropdown from "../UserDropDown";
+import Dropdown from "../userDropDown";
 
 const StoreNavbar = ({ name }) => {
   return (
