@@ -68,8 +68,30 @@ const createOrder = async (req, res) => {
       orderIds.push(order.id);
     }
     if (paymentMethod === "STRIPE") {
+      if (!process.env.STRIPE_SECRET_KEY) {
+        console.error("STRIPE_SECRET_KEY is missing in environment variables");
+        return res
+          .status(500)
+          .json({ error: "Server configuration error: Missing Stripe Key" });
+      }
       const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
       const origin = req.headers["origin"] || process.env.NEXT_PUBLIC_URL;
+
+      console.log("Stripe Checkout Debug:", {
+        origin,
+        hasStripeKey: !!process.env.STRIPE_SECRET_KEY,
+        nextPublicUrl: process.env.NEXT_PUBLIC_URL,
+      });
+
+      if (!origin) {
+        console.error(
+          "Origin is undefined. req.headers['origin'] and process.env.NEXT_PUBLIC_URL are both missing."
+        );
+        return res
+          .status(500)
+          .json({ error: "Server configuration error: Missing Origin" });
+      }
+
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ["card"],
         line_items: [
