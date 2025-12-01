@@ -67,6 +67,35 @@ const createOrder = async (req, res) => {
       });
       orderIds.push(order.id);
     }
+    if (paymentMethod === "STRIPE") {
+      const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+      const origin = req.headers["origin"];
+      const session = await stripe.checkout.sessions.create({
+        payment_method_types: ["card"],
+        line_items: [
+          {
+            price_data: {
+              currency: "usd",
+              product_data: {
+                name: "Order",
+              },
+              unit_amount: Math.round(fullAmount * 100),
+            },
+            quantity: 1,
+          },
+        ],
+        expires_at: Math.floor(Date.now() / 1000) + 30 * 60,
+        mode: "payment",
+        success_url: `${origin}/loading?nextUrl=orders`,
+        cancel_url: `${origin}/cart`,
+        metadata: {
+          orderIds: orderIds.join(","),
+          userId: userData.id.toString(),
+          appId: "gocart",
+        },
+      });
+      return res.json({ session });
+    }
     await prisma.user.update({
       where: { id: userData.id.toString() },
       data: {
