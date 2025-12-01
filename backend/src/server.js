@@ -1,6 +1,8 @@
+const dotenv = require("dotenv");
+dotenv.config();
+
 const express = require("express");
 const cors = require("cors");
-const dotenv = require("dotenv");
 const storeRoutes = require("./routes/store.js");
 const authRoutes = require("./routes/auth.js");
 const meRoutes = require("./routes/me.js");
@@ -18,8 +20,6 @@ const stripeRoutes = require("./routes/stripe.js");
 
 const app = express();
 app.use(cookieParser());
-
-dotenv.config();
 
 app.set("trust proxy", 1);
 
