@@ -1,10 +1,6 @@
 "use client";
 import { useSelector } from "react-redux";
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { User, Shield, CreditCard, Plus } from "lucide-react";
 import Link from "next/link";
@@ -76,16 +72,19 @@ export default function ProfilePage() {
               <Avatar className="h-16 w-16">
                 <AvatarImage
                   src={user.image || "/avatar.png"}
-                  alt={user.name}
+                  alt={user.fullName || user.username || user.name}
                 />
                 <AvatarFallback className="text-lg bg-gray-100 text-gray-600">
-                  {user.name?.charAt(0) || "U"}
+                  {user.fullName?.charAt(0) ||
+                    user.username?.charAt(0) ||
+                    user.name?.charAt(0) ||
+                    "U"}
                 </AvatarFallback>
               </Avatar>
               <div>
                 <p className="text-sm font-medium text-gray-900">Profile</p>
                 <p className="text-sm text-gray-500">
-                  {user.name || user.fullName || user.username}
+                  {user.fullName || user.username || user.name}
                 </p>
               </div>
             </div>

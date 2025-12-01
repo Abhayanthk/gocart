@@ -9,6 +9,7 @@ import { fetchProducts } from "@/lib/features/product/productSlice";
 import { fetchCart, uploadCart } from "@/lib/features/cart/cartSlice";
 import Loading from "@/components/Loading";
 import { fetchAddress } from "@/lib/features/address/addressSlice";
+import { fetchUserRatings } from "@/lib/features/rating/ratingSlice";
 
 export default function PublicLayout({ children }) {
   const dispatch = useDispatch();
@@ -23,6 +24,11 @@ export default function PublicLayout({ children }) {
   useEffect(() => {
     dispatch(uploadCart({}));
   }, [cartItems]);
+  useEffect(() => {
+    setLoading(true);
+    dispatch(fetchUserRatings({}));
+    setLoading(false);
+  }, []);
   if (loading) return <Loading />;
   return (
     <>

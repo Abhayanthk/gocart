@@ -72,10 +72,13 @@ export default function ProfilePage() {
               <Avatar className="h-16 w-16">
                 <AvatarImage
                   src={user.image || "/avatar.png"}
-                  alt={user.name}
+                  alt={user.fullName || user.username || user.name}
                 />
                 <AvatarFallback className="text-lg bg-gray-100 text-gray-600">
-                  {user.name?.charAt(0) || "U"}
+                  {user.fullName?.charAt(0) ||
+                    user.username?.charAt(0) ||
+                    user.name?.charAt(0) ||
+                    "U"}
                 </AvatarFallback>
               </Avatar>
               <div>

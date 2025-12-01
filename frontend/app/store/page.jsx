@@ -109,7 +109,11 @@ export default function Dashboard() {
                   height={100}
                 />
                 <div>
-                  <p className="font-medium">{review.user.name}</p>
+                  <p className="font-medium">
+                    {review.user.fullName ||
+                      review.user.username ||
+                      review.user.name}
+                  </p>
                   <p className="font-light text-slate-500">
                     {new Date(review.createdAt).toDateString()}
                   </p>

@@ -53,11 +53,18 @@ const StoreInfo = ({ store }) => {
           width={36}
           height={36}
           src={store.user.image}
-          alt={store.user.name || "User Avatar"}
+          alt={
+            store.user.fullName ||
+            store.user.username ||
+            store.user.name ||
+            "User Avatar"
+          }
           className="w-9 h-9 rounded-full"
         />
         <div>
-          <p className="text-slate-600 font-medium">{store.user.name}</p>
+          <p className="text-slate-600 font-medium">
+            {store.user.fullName || store.user.username || store.user.name}
+          </p>
           <p className="text-slate-400">{store.user.email}</p>
         </div>
       </div>

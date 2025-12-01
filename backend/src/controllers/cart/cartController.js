@@ -4,6 +4,9 @@ const { getUserData } = require("../../utilities/getUserData");
 const updateCart = async (req, res) => {
   try {
     const userData = getUserData(req);
+    if (!userData) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
     const { cart } = req.body;
 
     //     save the cart in the database
@@ -27,7 +30,9 @@ const updateCart = async (req, res) => {
 const getUserCart = async (req, res) => {
   try {
     const userData = getUserData(req);
-
+    if (!userData) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
     //     save the cart in the database
 
     const user = await prisma.user.findUnique({

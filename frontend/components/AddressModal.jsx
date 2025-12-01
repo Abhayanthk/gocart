@@ -4,7 +4,7 @@ import axios from "axios";
 import { XIcon } from "lucide-react";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
-const { useDispatch } = require("react-redux");
+const { useDispatch, useSelector } = require("react-redux");
 
 const AddressModal = ({ setShowAddressModal }) => {
   const [address, setAddress] = useState({
@@ -17,6 +17,7 @@ const AddressModal = ({ setShowAddressModal }) => {
     country: "",
     phone: "",
   });
+  const { user } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
 
@@ -30,6 +31,9 @@ const AddressModal = ({ setShowAddressModal }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      if (!user) {
+        return toast.error("Please login to add address");
+      }
       const { data } = await axios.post(
         "/api/address",
         { address },
