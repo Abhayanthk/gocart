@@ -18,6 +18,7 @@ const {
   getOrders,
   updateOrderStatus,
 } = require("../controllers/store/ordersController.js");
+const { getStoreData } = require("../controllers/store/dataController.js");
 const router = Router();
 
 router.post("/create", upload.single("image"), createStore);
@@ -29,5 +30,6 @@ router.get("/products", getProducts);
 router.post("/stock-toggle", toggleStock);
 router.get("/orders", getOrders);
 router.post("/order-status", updateOrderStatus);
+router.get("/data", getStoreData);
 
 module.exports = router;

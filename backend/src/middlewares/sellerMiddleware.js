@@ -3,7 +3,7 @@ const { authSeller } = require("./authSeller");
 
 const sellerMiddleware = async (req, res, next) => {
   try {
-    if (req.path === "/create") {
+    if (req.path === "/create" && req.method === "POST") {
       return next();
     }
     const userData = getUserData(req);
