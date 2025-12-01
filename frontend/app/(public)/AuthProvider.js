@@ -1,9 +1,12 @@
 "use client";
 import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
-import { setUser } from "@/lib/features/auth/authSlice";
+import { fetchUserRatings } from "@/lib/features/rating/ratingSlice";
+import { fetchCart } from "@/lib/features/cart/cartSlice";
+import { fetchAddress } from "@/lib/features/address/addressSlice";
 import Loading from "@/components/Loading";
 import axios from "axios";
+import { setUser } from "@/lib/features/auth/authSlice";
 
 export default function AuthProvider({ children }) {
   const dispatch = useDispatch();
@@ -17,12 +20,15 @@ export default function AuthProvider({ children }) {
 
         if (res.data?.user) {
           dispatch(setUser(res.data.user));
+          dispatch(fetchUserRatings());
+          dispatch(fetchCart());
+          dispatch(fetchAddress());
         } else {
           dispatch(setUser(null));
         }
       } catch (err) {
-            console.log("Error fetching user:", err);
-        dispatch(setUser(null)); 
+        console.log("Error fetching user:", err);
+        dispatch(setUser(null));
       } finally {
         setLoading(false);
       }

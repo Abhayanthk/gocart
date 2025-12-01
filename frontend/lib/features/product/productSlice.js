@@ -25,6 +25,7 @@ const productSlice = createSlice({
   name: "product",
   initialState: {
     list: [],
+    loading: true,
   },
   reducers: {
     setProduct: (state, action) => {
@@ -35,11 +36,16 @@ const productSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    builder.addCase(fetchProducts.pending, (state) => {
+      state.loading = true;
+    });
     builder.addCase(fetchProducts.fulfilled, (state, action) => {
       state.list = action.payload;
+      state.loading = false;
     });
     builder.addCase(fetchProducts.rejected, (state, action) => {
       console.log(action);
+      state.loading = false;
     });
   },
 });
