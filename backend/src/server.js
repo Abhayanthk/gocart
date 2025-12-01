@@ -17,6 +17,7 @@ const couponRoutes = require("./routes/coupon.js");
 const ordersRoutes = require("./routes/orders.js");
 const ratingRoutes = require("./routes/rating.js");
 const stripeRoutes = require("./routes/stripe.js");
+const aiRoutes = require("./routes/ai.js");
 
 const app = express();
 app.use(cookieParser());
@@ -60,6 +61,7 @@ app.use("/address", addressRoutes);
 app.use("/coupon", couponRoutes);
 app.use("/orders", ordersRoutes);
 app.use("/rating", ratingRoutes);
+app.use("/ai", aiRoutes);
 
 app.get("/", (req, res) => {
   res.send("✅ Main Server is running");

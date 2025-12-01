@@ -19,6 +19,7 @@ export default function StoreAddProduct() {
   ];
 
   const [images, setImages] = useState({ 1: null, 2: null, 3: null, 4: null });
+  const [aiUsed, setAiUsed] = useState(false);
   const [productInfo, setProductInfo] = useState({
     name: "",
     description: "",
@@ -31,7 +32,48 @@ export default function StoreAddProduct() {
   const onChangeHandler = (e) => {
     setProductInfo({ ...productInfo, [e.target.name]: e.target.value });
   };
-
+  const handleImageUpload = async (key, file) => {
+    setImages((prev) => ({ ...prev, [key]: file }));
+    if (key === "1" && file && !aiUsed) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = async () => {
+        const base64String = reader.result.split(",")[1];
+        const mimeType = file.type;
+        try {
+          await toast.promise(
+            axios.post(
+              "/api/ai/createProductDescription",
+              {
+                base64Image: base64String,
+                mimeType,
+              },
+              { withCredentials: true }
+            ),
+            {
+              loading: "Generating description...",
+              success: (res) => {
+                const data = res.data;
+                if (data.name && data.description) {
+                  setProductInfo((prev) => ({
+                    ...prev,
+                    name: data.name,
+                    description: data.description,
+                  }));
+                  setAiUsed(true);
+                  return "Description generated successfully";
+                }
+                return "Description not generated";
+              },
+              error: "Failed to generate description",
+            }
+          );
+        } catch (error) {
+          console.log(error);
+        }
+      };
+    }
+  };
   const onSubmitHandler = async (e) => {
     e.preventDefault();
     try {
@@ -101,9 +143,7 @@ export default function StoreAddProduct() {
               type="file"
               accept="image/*"
               id={`images${key}`}
-              onChange={(e) =>
-                setImages({ ...images, [key]: e.target.files[0] })
-              }
+              onChange={(e) => handleImageUpload(key, e.target.files[0])}
               hidden
             />
           </label>
