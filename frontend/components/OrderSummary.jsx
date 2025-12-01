@@ -8,7 +8,7 @@ import axios from "axios";
 import { fetchCart } from "@/lib/features/cart/cartSlice";
 
 const OrderSummary = ({ totalPrice, items }) => {
-  const currency = process.env.NEXT_PUBLIC_CURRENCY_SYMBOL || "$";
+  const currency = process.env.NEXT_PUBLIC_CURRENCY_SYMBOL || "₹";
 
   const router = useRouter();
   const dispatch = useDispatch();

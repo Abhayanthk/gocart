@@ -20,20 +20,22 @@ const Hero = () => {
               <span className="bg-green-600 px-3 py-1 max-sm:ml-1 rounded-full text-white text-xs">
                 NEWS
               </span>{" "}
-              Free Shipping on Orders Above $50!{" "}
+              Free Shipping on Orders Above ₹500!{" "}
               <ChevronRightIcon
-            //   Here when we are hovering the parent div with the class group this icon will move 2px to the right, sexy right?
+                //   Here when we are hovering the parent div with the class group this icon will move 2px to the right, sexy right?
                 className="group-hover:ml-2 transition-all"
                 size={16}
               />
             </div>
-            <h2 className="text-3xl sm:text-5xl leading-[1.2] my-3 font-medium bg-gradient-to-r from-slate-600 to-[#A0FF74] 
-            bg-clip-text text-transparent max-w-xs  sm:max-w-md">
+            <h2
+              className="text-3xl sm:text-5xl leading-[1.2] my-3 font-medium bg-gradient-to-r from-slate-600 to-[#A0FF74] 
+            bg-clip-text text-transparent max-w-xs  sm:max-w-md"
+            >
               Gadgets you'll love. Prices you'll trust.
             </h2>
             <div className="text-slate-800 text-sm font-medium mt-4 sm:mt-8">
               <p>Starts from</p>
-              <p className="text-3xl">{currency}4.90</p>
+              <p className="text-3xl">{currency}500</p>
             </div>
             <button className="bg-slate-800 text-white text-sm py-2.5 px-7 sm:py-5 sm:px-12 mt-4 sm:mt-10 rounded-md hover:bg-slate-900 hover:scale-103 active:scale-95 transition">
               LEARN MORE
