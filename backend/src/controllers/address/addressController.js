@@ -9,12 +9,12 @@ const addAddress = async (req, res) => {
 
     //     save the cart in the database
     address.userId = userData.id.toString();
-    const newAdress = await prisma.address.create({
+    const newAddress = await prisma.address.create({
       data: address,
     });
     return res
       .status(200)
-      .json({ message: "Address added successfully", newAdress });
+      .json({ message: "Address added successfully", newAddress });
   } catch (error) {
     console.log(error);
     return res.status(500).json({
