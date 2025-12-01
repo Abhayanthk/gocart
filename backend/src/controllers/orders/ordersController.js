@@ -69,7 +69,7 @@ const createOrder = async (req, res) => {
     }
     if (paymentMethod === "STRIPE") {
       const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
-      const origin = req.headers["origin"];
+      const origin = req.headers["origin"] || process.env.NEXT_PUBLIC_URL;
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ["card"],
         line_items: [
@@ -104,7 +104,7 @@ const createOrder = async (req, res) => {
     });
     return res.status(200).json({ message: "Order created successfully" });
   } catch (error) {
-    console.log(error);
+    console.log("Error in createOrder:", error);
     return res.status(500).json({ error: error.code || error.message });
   }
 };
