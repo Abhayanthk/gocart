@@ -1,7 +1,7 @@
 const prisma = require("../../../prisma/prisma");
 
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const verifyStripePayment = async (req, res) => {
+  const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
   try {
     const body = req.body;
     const sig = req.headers["stripe-signature"];
