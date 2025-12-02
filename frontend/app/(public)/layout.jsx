@@ -22,7 +22,12 @@ export default function PublicLayout({ children }) {
     setLoading(false);
   }, []);
   useEffect(() => {
-    dispatch(uploadCart({}));
+    // Debounce the cart upload to avoid multiple rapid API calls
+    const timer = setTimeout(() => {
+      dispatch(uploadCart({}));
+    }, 1000);
+
+    return () => clearTimeout(timer);
   }, [cartItems]);
   useEffect(() => {
     setLoading(true);

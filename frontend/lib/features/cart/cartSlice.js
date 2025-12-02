@@ -1,24 +1,18 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-let debouncedTimer = null;
-
 export const uploadCart = createAsyncThunk(
   "cart/uploadCart",
   async (_, thunkAPI) => {
     try {
-      clearTimeout(debouncedTimer);
-      //     suppose we add mutiple items in the cart in one second then it will only call one time
-      debouncedTimer = setTimeout(async () => {
-        const { cartItems } = thunkAPI.getState().cart;
-        const { data } = await axios.post(
-          "/api/cart",
-          { cart: cartItems },
-          {
-            withCredentials: true,
-          }
-        );
-      }, 1000);
+      const { cartItems } = thunkAPI.getState().cart;
+      const { data } = await axios.post(
+        "/api/cart",
+        { cart: cartItems },
+        {
+          withCredentials: true,
+        }
+      );
       return data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data);
