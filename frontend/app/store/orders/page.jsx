@@ -97,7 +97,7 @@ export default function StoreOrders() {
                   <td className="pl-6 text-green-600">{index + 1}</td>
                   <td className="px-4 py-3">{order.user?.name}</td>
                   <td className="px-4 py-3 font-medium text-slate-800">
-                    ${order.total}
+                    ₹{order.total}
                   </td>
                   <td className="px-4 py-3">{order.paymentMethod}</td>
                   <td className="px-4 py-3">
