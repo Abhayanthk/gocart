@@ -115,16 +115,18 @@ export default function StoreAddProduct() {
 
   return (
     <form
-      onSubmit={(e) =>
-        toast.promise(onSubmitHandler(e), { loading: "Adding Product..." })
-      }
+      onSubmit={async (e) => {
+        await toast.promise(onSubmitHandler(e), {
+          loading: "Adding Product...",
+        });
+        setAiUsed(false);
+      }}
       className="text-slate-500 mb-28"
     >
       <h1 className="text-2xl">
         Add New <span className="text-slate-800 font-medium">Products</span>
       </h1>
       <p className="mt-7">Product Images</p>
-
       <div htmlFor="" className="flex gap-3 mt-4">
         {Object.keys(images).map((key) => (
           <label key={key} htmlFor={`images${key}`}>
@@ -149,7 +151,6 @@ export default function StoreAddProduct() {
           </label>
         ))}
       </div>
-
       <label htmlFor="" className="flex flex-col gap-2 my-6 ">
         Name
         <input
@@ -162,7 +163,6 @@ export default function StoreAddProduct() {
           required
         />
       </label>
-
       <label htmlFor="" className="flex flex-col gap-2 my-6 ">
         Description
         <textarea
@@ -175,7 +175,6 @@ export default function StoreAddProduct() {
           required
         />
       </label>
-
       <div className="flex gap-5">
         <label htmlFor="" className="flex flex-col gap-2 ">
           Actual Price (₹)
@@ -204,7 +203,6 @@ export default function StoreAddProduct() {
           />
         </label>
       </div>
-
       <select
         onChange={(e) =>
           setProductInfo({ ...productInfo, category: e.target.value })
@@ -220,9 +218,7 @@ export default function StoreAddProduct() {
           </option>
         ))}
       </select>
-
       <br />
-
       <button
         disabled={loading}
         className="bg-slate-800 text-white px-6 mt-7 py-2 hover:bg-slate-900 rounded transition"
