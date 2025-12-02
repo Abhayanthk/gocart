@@ -1,21 +1,27 @@
 "use client";
-import { Suspense, useState } from "react";
+import { Suspense, useState, useEffect } from "react";
 import ProductCard from "@/components/ProductCard";
 import { MoveLeftIcon } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchProducts } from "@/lib/features/product/productSlice";
 
 function ShopContent() {
   // get query params ?search=abc
   const searchParams = useSearchParams();
-  const search = searchParams.get("search");
+  const search = searchParams.get("search") || "";
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const [currentPage, setCurrentPage] = useState(1);
   const ITEMS_PER_PAGE = 12;
 
-  const products = useSelector((state) => state.product.list);
-  const loading = useSelector((state) => state.product.loading);
+  const {
+    list: products,
+    loading,
+    pagination,
+    facets,
+  } = useSelector((state) => state.product);
 
   // Filter State
   const [categoryFilters, setCategoryFilters] = useState([]);
@@ -23,63 +29,32 @@ function ShopContent() {
   const [sortOption, setSortOption] = useState("newest");
   const [showFilters, setShowFilters] = useState(false);
 
-  // Extract unique categories and counts
-  const categoryCounts = products.reduce((acc, product) => {
-    acc[product.category] = (acc[product.category] || 0) + 1;
-    return acc;
-  }, {});
-  const categories = Object.keys(categoryCounts);
+  // Fetch products when filters change
+  useEffect(() => {
+    dispatch(
+      fetchProducts({
+        page: currentPage,
+        limit: ITEMS_PER_PAGE,
+        search,
+        category: categoryFilters.join(","),
+        minPrice: priceRange.min,
+        maxPrice: priceRange.max,
+        sort: sortOption,
+      })
+    );
+  }, [dispatch, currentPage, search, categoryFilters, priceRange, sortOption]);
 
-  // Filter and Sort Logic
-  const filteredProducts = products
-    .filter((product) => {
-      // Search Filter
-      if (
-        search &&
-        !product.name.toLowerCase().includes(search.toLowerCase())
-      ) {
-        return false;
-      }
-      // Category Filter
-      if (
-        categoryFilters.length > 0 &&
-        !categoryFilters.includes(product.category)
-      ) {
-        return false;
-      }
-      // Price Filter
-      if (product.price < priceRange.min || product.price > priceRange.max) {
-        return false;
-      }
-      return true;
-    })
-    .sort((a, b) => {
-      switch (sortOption) {
-        case "price-low-high":
-          return a.price - b.price;
-        case "price-high-low":
-          return b.price - a.price;
-        case "newest":
-        default:
-          return new Date(b.createdAt) - new Date(a.createdAt);
-      }
-    });
+  // Reset page when filters change (except page itself)
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [search, categoryFilters, priceRange, sortOption]);
 
-  // Calculate total pages
-  const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE);
-
-  // Get current products
-  const indexOfLastProduct = currentPage * ITEMS_PER_PAGE;
-  const indexOfFirstProduct = indexOfLastProduct - ITEMS_PER_PAGE;
-  const currentProducts = filteredProducts.slice(
-    indexOfFirstProduct,
-    indexOfLastProduct
-  );
+  const categories = facets?.categories || [];
 
   // Change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
   const nextPage = () =>
-    setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+    setCurrentPage((prev) => Math.min(prev + 1, pagination.pages));
   const prevPage = () => setCurrentPage((prev) => Math.max(prev - 1, 1));
 
   const toggleCategory = (category) => {
@@ -88,7 +63,6 @@ function ShopContent() {
         ? prev.filter((c) => c !== category)
         : [...prev, category]
     );
-    setCurrentPage(1); // Reset to first page on filter change
   };
 
   return (
@@ -118,20 +92,20 @@ function ShopContent() {
                   All Categories
                 </label>
               </div>
-              {categories.map((category) => (
-                <div key={category} className="flex items-center gap-2">
+              {categories.map((cat) => (
+                <div key={cat.category} className="flex items-center gap-2">
                   <input
                     type="checkbox"
-                    id={category}
-                    checked={categoryFilters.includes(category)}
-                    onChange={() => toggleCategory(category)}
+                    id={cat.category}
+                    checked={categoryFilters.includes(cat.category)}
+                    onChange={() => toggleCategory(cat.category)}
                     className="accent-slate-800"
                   />
                   <label
-                    htmlFor={category}
+                    htmlFor={cat.category}
                     className="text-slate-600 cursor-pointer"
                   >
-                    {category} ({categoryCounts[category]})
+                    {cat.category} ({cat.count})
                   </label>
                 </div>
               ))}
@@ -203,13 +177,13 @@ function ShopContent() {
                     <div className="h-4 bg-slate-200 rounded w-1/2"></div>
                   </div>
                 ))
-              : currentProducts.map((product) => (
+              : products.map((product) => (
                   <ProductCard key={product.id} product={product} />
                 ))}
           </div>
 
           {/* Pagination Controls */}
-          {totalPages > 1 && (
+          {pagination.pages > 1 && (
             <div className="flex justify-center items-center gap-4 my-12">
               <button
                 onClick={prevPage}
@@ -222,7 +196,7 @@ function ShopContent() {
               </button>
 
               <div className="flex gap-2">
-                {Array.from({ length: totalPages }, (_, i) => (
+                {Array.from({ length: pagination.pages }, (_, i) => (
                   <button
                     key={i + 1}
                     onClick={() => paginate(i + 1)}
@@ -239,9 +213,9 @@ function ShopContent() {
 
               <button
                 onClick={nextPage}
-                disabled={currentPage === totalPages}
+                disabled={currentPage === pagination.pages}
                 className={`px-4 py-2 border border-slate-300 rounded-md text-slate-600 hover:bg-slate-100 transition ${
-                  currentPage === totalPages
+                  currentPage === pagination.pages
                     ? "opacity-50 cursor-not-allowed"
                     : ""
                 }`}

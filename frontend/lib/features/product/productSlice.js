@@ -4,19 +4,19 @@ import axios from "axios";
 
 export const fetchProducts = createAsyncThunk(
   "product/fetchProducts",
-  async ({ storeId }, thunkAPI) => {
+  async (params = {}, thunkAPI) => {
     try {
-      const { data } = await axios.get(
-        "/api/products" + (storeId ? `?storeId=${storeId}` : ""),
-        { storeId },
-        {
-          withCredentials: true,
-        }
-      );
-      return data.products;
+      const { storeId, ...queryParams } = params;
+      const { data } = await axios.get("/api/products", {
+        params: { storeId, ...queryParams },
+        withCredentials: true,
+      });
+      return data;
     } catch (error) {
       console.log(error);
-      return thunkAPI.rejectWithValue(error.response.data);
+      return thunkAPI.rejectWithValue(
+        error.response?.data || "Error fetching products"
+      );
     }
   }
 );
@@ -25,6 +25,14 @@ const productSlice = createSlice({
   name: "product",
   initialState: {
     list: [],
+    pagination: {
+      total: 0,
+      page: 1,
+      pages: 1,
+    },
+    facets: {
+      categories: [],
+    },
     loading: true,
   },
   reducers: {
@@ -40,7 +48,9 @@ const productSlice = createSlice({
       state.loading = true;
     });
     builder.addCase(fetchProducts.fulfilled, (state, action) => {
-      state.list = action.payload || [];
+      state.list = action.payload.products || [];
+      state.pagination = action.payload.pagination || state.pagination;
+      state.facets = action.payload.facets || state.facets;
       state.loading = false;
     });
     builder.addCase(fetchProducts.rejected, (state, action) => {
