@@ -35,7 +35,7 @@ export default function CreateStore() {
     try {
       const { data } = await axios.get(`${apiUrl}/store/create`, {
         headers: { Authorization: `Bearer ${token}` },
-        withCredentials: true
+        withCredentials: true,
       });
       if (["approved", "rejected", "pending"].includes(data.status)) {
         setStatus(data.status);
@@ -55,7 +55,9 @@ export default function CreateStore() {
             );
             break;
           case "pending":
-            setMessage("Your store is pending approval, wait for admin to approve");
+            setMessage(
+              "Your store is pending approval, wait for admin to approve"
+            );
             break;
           default:
             break;
@@ -67,7 +69,7 @@ export default function CreateStore() {
       console.log(err);
       toast.error(err?.response?.data?.error || err.message);
     }
-
+    console.log("Seller Status:", status), message;
     setLoading(false);
   };
 
@@ -89,10 +91,10 @@ export default function CreateStore() {
       formData.append("image", storeInfo.image);
       console.log(formData);
       const { data } = await axios.post(`${apiUrl}/store/create`, formData, {
-        headers: { 
+        headers: {
           Authorization: `Bearer ${token}`,
         },
-        withCredentials: true
+        withCredentials: true,
       });
       toast.success(data.message);
       await fetchSellerStatus();

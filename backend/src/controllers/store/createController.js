@@ -86,7 +86,15 @@ async function createStore(req, res) {
 
 async function getStore(req, res) {
   try {
-    const store = req.storeInfo;
+    const userData = getUserData(req);
+    if (!userData) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+    const store = await prisma.store.findUnique({
+      where: {
+        userId: userData.id.toString(),
+      },
+    });
     if (store) return res.status(200).json({ status: store.status, store });
     return res.status(200).json({ status: "not registered" });
   } catch (err) {
