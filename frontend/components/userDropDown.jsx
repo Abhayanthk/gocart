@@ -8,11 +8,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { LogOut, Settings, User, Package } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useSelector, useDispatch } from "react-redux";
@@ -81,12 +77,12 @@ export default function Dropdown() {
           >
             <Package className="mr-2 h-4 w-4 text-gray-600" /> My Orders
           </DropdownMenuItem>
-          <DropdownMenuItem
+          {/* <DropdownMenuItem
             onClick={() => router.push("/settings")}
             className="cursor-pointer"
           >
             <Settings className="mr-2 h-4 w-4 text-gray-600" /> Settings
-          </DropdownMenuItem>
+          </DropdownMenuItem> */}
 
           <DropdownMenuSeparator />
           <DropdownMenuItem

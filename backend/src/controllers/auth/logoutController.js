@@ -8,6 +8,12 @@ async function logout(req, res) {
       sameSite: isProduction ? "none" : "lax",
       path: "/",
     });
+    res.clearCookie("admin_token", {
+      httpOnly: true,
+      secure: isProduction,
+      sameSite: isProduction ? "none" : "lax",
+      path: "/",
+    });
     return res.status(200).json({ message: "Logout success" });
   } catch (err) {
     console.log(err);

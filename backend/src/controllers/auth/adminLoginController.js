@@ -19,16 +19,16 @@ const adminLogin = async (req, res) => {
     }
 
     const token = generateToken(admin, "admin");
-//     res.cookie("token", token, {
-//       httpOnly: true,
-//       secure: false, // Set to true in production if using HTTPS
-//       sameSite: "lax",
-//       path: "/",
-//       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-//     });
+    //     res.cookie("token", token, {
+    //       httpOnly: true,
+    //       secure: false, // Set to true in production if using HTTPS
+    //       sameSite: "lax",
+    //       path: "/",
+    //       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    //     });
     const isProduction = process.env.NODE_ENV === "production";
 
-    res.cookie("token", token, {
+    res.cookie("admin_token", token, {
       httpOnly: true,
       secure: isProduction, // true in production, false in dev
       sameSite: isProduction ? "none" : "lax", // "none" for cross-site (prod), "lax" for same-site (dev)

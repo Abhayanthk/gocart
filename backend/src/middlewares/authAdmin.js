@@ -3,7 +3,7 @@ const prisma = require("../../prisma/prisma");
 
 const authAdmin = async (req, res, next) => {
   try {
-    const userData = getUserData(req);
+    const userData = getUserData(req, "admin_token");
 
     // Check if getUserData returned an error object
     if (userData.status === 401 || !userData.id) {
