@@ -25,7 +25,7 @@ function ShopContent() {
 
   // Filter State
   const [categoryFilters, setCategoryFilters] = useState([]);
-  const [priceRange, setPriceRange] = useState({ min: 0, max: 100000 });
+  const [priceRange, setPriceRange] = useState({ min: 0, max: 10000000 });
   const [sortOption, setSortOption] = useState("newest");
   const [showFilters, setShowFilters] = useState(false);
 

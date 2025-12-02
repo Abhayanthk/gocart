@@ -88,7 +88,7 @@ const getProducts = async (req, res) => {
     });
 
     // Get Total Count for Pagination
-    const totalProducts = await prisma.product.count({ where });
+    const totalProducts = await prisma.product.count();
 
     // Get Category Counts (Scoped to current search/store but ignoring category/price filters for broader context if desired,
     // but typically users want to see counts for the current search context.
