@@ -7,7 +7,7 @@
 ## 🚀 Project Overview
 
 **GoCart** is a scalable, full-stack **multi-vendor e-commerce platform** designed for seamless interactions between **Admins**, **Sellers**, and **Customers**.  
-It supports **AI-generated product content**, **real-time order management**, **premium memberships**, and **Stripe-powered payments** — all built with modern web technologies.
+It supports **AI-generated product content**, **real-time order management**,  and **Stripe-powered payments** — all built with modern web technologies.
 
 ---
 
