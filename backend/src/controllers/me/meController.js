@@ -3,14 +3,7 @@ const prisma = require("../../../prisma/prisma");
 
 async function me(req, res) {
   try {
-    let token = req.cookies?.admin_token;
-    let role = "admin";
-
-    if (!token) {
-      token = req.cookies?.token;
-      role = "user";
-    }
-
+    const token = req.cookies?.token;
     if (!token) {
       return res.status(401).json({ user: null });
     }
@@ -20,18 +13,11 @@ async function me(req, res) {
       return res.status(401).json({ user: null });
     }
 
-    if (role === "admin") {
+    if (decoded.role === "admin") {
       const admin = await prisma.admin.findUnique({
         where: { email: decoded.email },
       });
       if (!admin) {
-        return res.status(401).json({ user: null });
-      }
-    } else {
-      const user = await prisma.user.findUnique({
-        where: { email: decoded.email },
-      });
-      if (!user) {
         return res.status(401).json({ user: null });
       }
     }

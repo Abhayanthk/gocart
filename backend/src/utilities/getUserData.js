@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 
-const getUserData = (req, cookieName = "token") => {
-  const token = req.cookies?.[cookieName];
+const getUserData = (req) => {
+  const token = req.cookies?.token;
   if (!token) {
     return { message: "Unauthorized", status: 401 };
   }

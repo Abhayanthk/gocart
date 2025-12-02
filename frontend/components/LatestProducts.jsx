@@ -8,7 +8,9 @@ import ProductCard from "./ProductCard";
 const LatestProducts = () => {
   // Setting up the maximum display quantity
   const displayQuantity = 4;
-  const { list: products, loading } = useSelector((state) => state.product);
+  const { list: products = [], loading } = useSelector(
+    (state) => state.product || {}
+  );
 
   return (
     <div className="px-6 my-30 max-w-6xl mx-auto">

@@ -40,7 +40,7 @@ const productSlice = createSlice({
       state.loading = true;
     });
     builder.addCase(fetchProducts.fulfilled, (state, action) => {
-      state.list = action.payload;
+      state.list = action.payload || [];
       state.loading = false;
     });
     builder.addCase(fetchProducts.rejected, (state, action) => {

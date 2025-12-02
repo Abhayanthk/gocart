@@ -35,6 +35,7 @@ async function login(req, res) {
     //       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days (milliseconds)
     //     });
     const isProduction = process.env.NODE_ENV === "production";
+
     res.cookie("token", token, {
       httpOnly: true,
       secure: isProduction, // true in production, false in dev

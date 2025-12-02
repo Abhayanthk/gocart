@@ -28,7 +28,7 @@ const adminLogin = async (req, res) => {
     //     });
     const isProduction = process.env.NODE_ENV === "production";
 
-    res.cookie("admin_token", token, {
+    res.cookie("token", token, {
       httpOnly: true,
       secure: isProduction, // true in production, false in dev
       sameSite: isProduction ? "none" : "lax", // "none" for cross-site (prod), "lax" for same-site (dev)
