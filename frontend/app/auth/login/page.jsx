@@ -2,18 +2,19 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "@/lib/features/auth/authSlice";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { assets } from "@/assets/assets";
 
-export default function LoginPage({ searchParams }) {
+export default function LoginPage() {
   const [form, setForm] = useState({ email: "", password: "" });
   const dispatch = useDispatch();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { state, error } = useSelector((state) => state.auth);
 
-  const redirect = searchParams?.redirect || "/";
+  const redirect = searchParams.get("redirect") || "/";
 
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });

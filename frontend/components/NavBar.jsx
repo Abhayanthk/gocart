@@ -1,14 +1,15 @@
-"use client";
-import { Search, ShoppingCart } from "lucide-react";
+import { Search, ShoppingCart, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useSelector } from "react-redux";
 import UserDropdown from "./userDropDown";
+import { AuthContext } from "@/app/(public)/AuthProvider";
 
 const Navbar = () => {
   const router = useRouter();
   const [search, setSearch] = useState("");
+  const { loading } = useContext(AuthContext);
   const cartCount = useSelector((state) => state.cart.total);
   const user = useSelector((state) => state.auth.user);
   const [isLoggedIn, setIsloggedIn] = useState(false);
@@ -63,13 +64,21 @@ const Navbar = () => {
               href="/cart"
               className="relative flex items-center gap-2 text-slate-600"
             >
-              <ShoppingCart size={18} />
-              Cart
-              <button className="absolute -top-1 left-3 text-[8px] text-white bg-slate-600 size-3.5 rounded-full">
-                {cartCount}
-              </button>
+              {loading ? (
+                <Loader2 className="animate-spin" size={18} />
+              ) : (
+                <>
+                  <ShoppingCart size={18} />
+                  Cart
+                  <button className="absolute -top-1 left-3 text-[8px] text-white bg-slate-600 size-3.5 rounded-full">
+                    {cartCount}
+                  </button>
+                </>
+              )}
             </Link>
-            {isLoggedIn ? (
+            {loading ? (
+              <Loader2 className="animate-spin text-indigo-500" size={24} />
+            ) : isLoggedIn ? (
               <UserDropdown />
             ) : (
               <Link href="/auth/login">

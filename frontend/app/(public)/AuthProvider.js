@@ -1,12 +1,14 @@
 "use client";
 import { useDispatch } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect, useState, createContext } from "react";
 import { fetchUserRatings } from "@/lib/features/rating/ratingSlice";
 import { fetchCart } from "@/lib/features/cart/cartSlice";
 import { fetchAddress } from "@/lib/features/address/addressSlice";
 import GlobalLoader from "@/components/GlobalLoader";
 import axios from "axios";
 import { setUser } from "@/lib/features/auth/authSlice";
+
+export const AuthContext = createContext();
 
 export default function AuthProvider({ children }) {
   const dispatch = useDispatch();
@@ -27,7 +29,7 @@ export default function AuthProvider({ children }) {
         setIsGlobalLoading(false);
         setProgress(100);
         return Promise.reject(error);
-      }
+      },
     );
 
     const responseInterceptor = axios.interceptors.response.use(
@@ -46,7 +48,7 @@ export default function AuthProvider({ children }) {
           setProgress(0);
         }, 500);
         return Promise.reject(error);
-      }
+      },
     );
 
     const fetchUser = async () => {
@@ -96,12 +98,12 @@ export default function AuthProvider({ children }) {
   }, [loading, isGlobalLoading]);
 
   return (
-    <>
+    <AuthContext.Provider value={{ loading: loading || isGlobalLoading }}>
       <GlobalLoader
         isLoading={loading || isGlobalLoading}
         progress={progress}
       />
-      {!loading && children}
-    </>
+      {children}
+    </AuthContext.Provider>
   );
 }
