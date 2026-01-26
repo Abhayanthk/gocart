@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "@/lib/features/auth/authSlice";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -7,7 +7,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { assets } from "@/assets/assets";
 
-export default function LoginPage() {
+function LoginForm() {
   const [form, setForm] = useState({ email: "", password: "" });
   const dispatch = useDispatch();
   const router = useRouter();
@@ -94,5 +94,13 @@ export default function LoginPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <LoginForm />
+    </Suspense>
   );
 }
